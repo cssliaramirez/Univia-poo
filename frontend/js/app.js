@@ -1,6 +1,7 @@
 import { getCareer, getCareers, getHealth, getSchools } from "./api.js"
 import { API_DOCUMENTATION_URL } from "./config.js"
 import { getState, setState, subscribe } from "./state.js"
+import { initTheme } from "./theme.js"
 import {
 	closeCareerDialog,
 	configureApiLinks,
@@ -23,6 +24,7 @@ const dialog = document.querySelector("#career-dialog")
 subscribe(renderState)
 configureApiLinks(API_DOCUMENTATION_URL)
 initializeReveals()
+initTheme()
 
 async function loadInitialData() {
 	setState({ loading: true, error: null })
