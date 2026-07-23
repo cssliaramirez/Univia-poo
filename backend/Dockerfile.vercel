@@ -1,0 +1,21 @@
+FROM eclipse-temurin:21-jdk-alpine AS build
+
+WORKDIR /build
+
+COPY .mvn .mvn
+COPY mvnw pom.xml ./
+RUN chmod +x mvnw && ./mvnw -B -DskipTests dependency:go-offline
+
+COPY src src
+RUN ./mvnw -B -DskipTests package
+
+FROM eclipse-temurin:21-jre-alpine
+
+WORKDIR /app
+
+COPY --from=build /build/target/univia-api.jar app.jar
+
+ENV PORT=80
+EXPOSE 80
+
+CMD ["/opt/java/openjdk/bin/java", "-jar", "app.jar"]

@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="description"
+			content="Explora la oferta académica de UNAPEC por escuela, nombre y modalidad."
+		/>
+		<title>UniVía · Catálogo académico</title>
+		<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+		<link rel="stylesheet" href="css/styles.css" />
+	</head>
+	<body>
+		<div class="page-noise" aria-hidden="true"></div>
+
+		<header class="site-header">
+			<a class="brand" href="#inicio" aria-label="Ir al inicio">
+				<span class="brand-mark">U</span>
+				<span>UniVía</span>
+			</a>
+
+			<nav class="header-nav" aria-label="Navegación principal">
+				<a href="#catalogo">Catálogo</a>
+				<a href="/docs" data-api-link
+					>API</a
+				>
+				<div class="service-status" id="service-status" aria-live="polite">
+					<span class="status-dot"></span>
+					<span>Comprobando servicio</span>
+				</div>
+				<button class="text-button" id="exit-button" type="button">
+					Salir
+				</button>
+			</nav>
+		</header>
+
+		<main>
+			<section class="hero" id="inicio">
+				<div class="hero-copy reveal">
+					<p class="eyebrow">Catálogo académico · UNAPEC</p>
+					<h1>Encuentra una carrera que <em>tenga sentido</em> para ti.</h1>
+					<p class="hero-description">
+						Explora programas universitarios y técnicos por escuela. Información
+						clara, actualizada y en un solo lugar.
+					</p>
+
+					<form class="search-panel" id="search-form">
+						<div class="field field-school">
+							<label for="school-select">Escuela o facultad</label>
+							<div class="select-wrap">
+								<select id="school-select" name="schoolId">
+									<option value="">Todas las escuelas</option>
+								</select>
+								<svg aria-hidden="true" viewBox="0 0 20 20">
+									<path d="m5 7.5 5 5 5-5" />
+								</svg>
+							</div>
+						</div>
+
+						<div class="field field-search">
+							<label for="career-search">Nombre de la carrera</label>
+							<div class="input-wrap">
+								<svg aria-hidden="true" viewBox="0 0 24 24">
+									<circle cx="10.5" cy="10.5" r="6.5" />
+									<path d="m15.5 15.5 5 5" />
+								</svg>
+								<input
+									id="career-search"
+									name="name"
+									type="search"
+									placeholder="Ej. Software, Finanzas…"
+									autocomplete="off"
+								/>
+								<kbd>Enter</kbd>
+							</div>
+						</div>
+
+						<button class="primary-button" type="submit">
+							Consultar
+							<svg aria-hidden="true" viewBox="0 0 24 24">
+								<path d="M5 12h14M14 7l5 5-5 5" />
+							</svg>
+						</button>
+					</form>
+				</div>
+
+				<figure class="hero-visual reveal" style="--delay: 120ms">
+					<img
+						src="assets/apec.png"
+						alt="Patio central del campus de la Universidad APEC"
+						width="993"
+						height="735"
+					/>
+					<figcaption>
+						<span>Oferta académica</span>
+						<span>2026</span>
+					</figcaption>
+					<div class="image-note">
+						<strong id="hero-program-count">43</strong>
+						<span>programas para explorar</span>
+					</div>
+				</figure>
+			</section>
+
+			<section class="metrics reveal" aria-label="Resumen del catálogo">
+				<div>
+					<strong id="school-count">12</strong>
+					<span>Escuelas académicas</span>
+				</div>
+				<div>
+					<strong id="program-count">43</strong>
+					<span>Programas disponibles</span>
+				</div>
+				<div>
+					<strong>3</strong>
+					<span>Modalidades de estudio</span>
+				</div>
+				<p>
+					Una vista ordenada de la oferta de grado y técnico superior para
+					comparar antes de decidir.
+				</p>
+			</section>
+
+			<section class="catalog-section" id="catalogo">
+				<div class="section-heading reveal">
+					<div>
+						<p class="eyebrow">Directorio académico</p>
+						<h2>Carreras disponibles</h2>
+					</div>
+					<p>
+						Selecciona una fila para consultar el detalle completo del programa.
+					</p>
+				</div>
+
+				<div class="catalog-shell reveal" style="--delay: 80ms">
+					<div class="catalog-toolbar">
+						<div class="result-copy" aria-live="polite">
+							<strong id="result-count">0 resultados</strong>
+							<span id="active-filter">Mostrando todo el catálogo</span>
+						</div>
+						<button class="secondary-button" id="refresh-button" type="button">
+							<svg aria-hidden="true" viewBox="0 0 24 24">
+								<path d="M20 7v5h-5" />
+								<path d="M18.1 16a8 8 0 1 1 .9-9l1 5" />
+							</svg>
+							Actualizar
+						</button>
+					</div>
+
+					<div
+						class="notice notice-error"
+						id="error-notice"
+						role="alert"
+						hidden
+					>
+						<div>
+							<strong>No pudimos cargar la información</strong>
+							<p id="error-message">
+								Comprueba que el backend esté disponible.
+							</p>
+						</div>
+						<button type="button" id="retry-button">Reintentar</button>
+					</div>
+
+					<div class="table-container" id="table-container">
+						<table>
+							<thead>
+								<tr>
+									<th>Código</th>
+									<th>Carrera</th>
+									<th>Escuela</th>
+									<th>Duración</th>
+									<th>Modalidad</th>
+									<th>Estado</th>
+									<th><span class="sr-only">Acciones</span></th>
+								</tr>
+							</thead>
+							<tbody id="career-table-body"></tbody>
+						</table>
+
+						<div
+							class="loading-state"
+							id="loading-state"
+							aria-label="Cargando carreras"
+						>
+							<div class="skeleton-row"></div>
+							<div class="skeleton-row"></div>
+							<div class="skeleton-row"></div>
+							<div class="skeleton-row"></div>
+						</div>
+
+						<div class="empty-state" id="empty-state" hidden>
+							<svg aria-hidden="true" viewBox="0 0 48 48">
+								<path d="M12 8h20l6 6v26H12z" />
+								<path d="M32 8v8h8M18 24h14M18 30h10" />
+							</svg>
+							<h3>No encontramos coincidencias</h3>
+							<p>
+								Prueba con otra escuela o utiliza un término de búsqueda más
+								amplio.
+							</p>
+							<button
+								class="secondary-button"
+								id="clear-filters-button"
+								type="button"
+							>
+								Limpiar filtros
+							</button>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="editorial-break reveal">
+				<div class="editorial-image">
+					<img
+						src="https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?auto=format&fit=crop&w=1400&q=82"
+						alt="Biblioteca universitaria con estanterías y mesas de estudio"
+						width="1400"
+						height="900"
+						loading="lazy"
+					/>
+				</div>
+				<blockquote>
+					<p>
+						Una buena decisión académica comienza con información que se puede
+						entender.
+					</p>
+					<footer>Catálogo UniVía</footer>
+				</blockquote>
+			</section>
+		</main>
+
+		<footer class="site-footer">
+			<a class="brand brand-footer" href="#inicio"
+				><span class="brand-mark">U</span><span>UniVía</span></a
+			>
+			<p>
+				Explorador académico desarrollado con información pública de UNAPEC.
+			</p>
+			<div>
+				<a href="/docs" data-api-link
+					>Documentación API</a
+				>
+				<span>© 2026</span>
+			</div>
+		</footer>
+
+		<dialog
+			class="career-dialog"
+			id="career-dialog"
+			aria-labelledby="dialog-title"
+		>
+			<div class="dialog-inner">
+				<div class="dialog-header">
+					<span class="dialog-code" id="dialog-code"></span>
+					<button
+						class="icon-button"
+						id="dialog-close"
+						type="button"
+						aria-label="Cerrar detalle"
+					>
+						<svg aria-hidden="true" viewBox="0 0 24 24">
+							<path d="M6 6l12 12M18 6 6 18" />
+						</svg>
+					</button>
+				</div>
+				<div class="dialog-content">
+					<p class="eyebrow" id="dialog-school"></p>
+					<h2 id="dialog-title"></h2>
+					<p class="dialog-lead">
+						Información principal del programa académico seleccionado.
+					</p>
+
+					<dl class="detail-grid">
+						<div>
+							<dt>Duración</dt>
+							<dd id="dialog-duration"></dd>
+						</div>
+						<div>
+							<dt>Modalidad</dt>
+							<dd id="dialog-modality"></dd>
+						</div>
+						<div>
+							<dt>Estado</dt>
+							<dd id="dialog-status"></dd>
+						</div>
+						<div>
+							<dt>Identificador</dt>
+							<dd id="dialog-id"></dd>
+						</div>
+					</dl>
+				</div>
+				<div class="dialog-image">
+					<img
+						src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1000&q=82"
+						alt="Estudiantes reunidos en un campus universitario"
+						width="1000"
+						height="700"
+						loading="lazy"
+					/>
+				</div>
+			</div>
+		</dialog>
+
+		<script type="module" src="js/app.js"></script>
+	</body>
+</html>
