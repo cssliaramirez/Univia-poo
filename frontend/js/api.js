@@ -2,7 +2,7 @@ import { API_BASE_URL, ENDPOINTS } from "./config.js"
 
 async function request(path, options = {}) {
 	const controller = new AbortController()
-	const timeout = window.setTimeout(() => controller.abort(), 10000)
+	const timeout = window.setTimeout(() => controller.abort(), 15000)
 
 	try {
 		const response = await fetch(`${API_BASE_URL}/api${path}`, {
@@ -31,12 +31,29 @@ async function request(path, options = {}) {
 	}
 }
 
+async function requestWithRetry(path, options = {}, maxRetries = 2) {
+	let lastError
+	for (let attempt = 0; attempt <= maxRetries; attempt++) {
+		try {
+			if (attempt > 0) {
+				await new Promise((resolve) => setTimeout(resolve, 2000 * attempt))
+			}
+			return await request(path, options)
+		} catch (error) {
+			lastError = error
+			if (error.name === "AbortError") throw error
+			if (attempt < maxRetries) continue
+		}
+	}
+	throw lastError
+}
+
 export function getHealth() {
-	return request(ENDPOINTS.health)
+	return requestWithRetry(ENDPOINTS.health)
 }
 
 export function getSchools() {
-	return request(ENDPOINTS.schools)
+	return requestWithRetry(ENDPOINTS.schools)
 }
 
 export function getCareers({ schoolId = "", name = "" } = {}) {
@@ -44,9 +61,9 @@ export function getCareers({ schoolId = "", name = "" } = {}) {
 	if (schoolId) params.set("schoolId", schoolId)
 	if (name.trim()) params.set("name", name.trim())
 	const query = params.toString()
-	return request(`${ENDPOINTS.careers}${query ? `?${query}` : ""}`)
+	return requestWithRetry(`${ENDPOINTS.careers}${query ? `?${query}` : ""}`)
 }
 
 export function getCareer(id) {
-	return request(`${ENDPOINTS.careers}/${id}`)
+	return requestWithRetry(`${ENDPOINTS.careers}/${id}`)
 }

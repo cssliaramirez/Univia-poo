@@ -31,7 +31,8 @@ async function loadInitialData() {
 	const healthRequest = getHealth().then(renderHealth).catch(renderHealthError)
 
 	try {
-		const [schools, careers] = await Promise.all([getSchools(), getCareers()])
+		const schools = await getSchools()
+		const careers = await getCareers()
 		renderSchools(schools)
 		setState({ schools, careers, totalCareers: careers.length, loading: false })
 	} catch (error) {
