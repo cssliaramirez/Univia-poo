@@ -11,9 +11,9 @@
     }
   },
   "rewrites": [
-    { "source": "/api/(.*)", "destination": { "service": "backend" } },
+    { "source": "/api/:path*", "destination": { "service": "backend" } },
     { "source": "/openapi", "destination": { "service": "backend" } },
     { "source": "/docs", "destination": { "service": "backend" } },
-    { "source": "/(.*)", "destination": { "service": "frontend" } }
+    { "source": "/:path*", "destination": { "service": "frontend" } }
   ]
 }
