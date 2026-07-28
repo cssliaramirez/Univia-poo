@@ -22,9 +22,7 @@
 
 			<nav class="header-nav" aria-label="Navegación principal">
 				<a href="#catalogo">Catálogo</a>
-				<a href="/docs" data-api-link
-					>API</a
-				>
+				<a href="/docs" data-api-link>API</a>
 				<div class="service-status" id="service-status" aria-live="polite">
 					<span class="status-dot"></span>
 					<span>Comprobando servicio</span>
@@ -38,9 +36,7 @@
 						<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
 					</svg>
 				</button>
-				<button class="text-button" id="exit-button" type="button">
-					Salir
-				</button>
+				<button class="text-button" id="exit-button" type="button">Salir</button>
 			</nav>
 		</header>
 
@@ -92,6 +88,26 @@
 							</svg>
 						</button>
 					</form>
+
+					<div class="test-banner" id="test-launch" role="button" tabindex="0">
+						<div class="test-banner-glow"></div>
+						<div class="test-banner-icon">
+							<svg aria-hidden="true" viewBox="0 0 32 32" fill="none">
+								<circle cx="16" cy="16" r="14" stroke="currentColor" stroke-width="1.5"/>
+								<path d="M11 13l4 4 9-9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+						</div>
+						<div class="test-banner-copy">
+							<span class="test-banner-eyebrow">2 minutos · Sin registrarte</span>
+							<strong>¿No sabes qué estudiar?</strong>
+							<span class="test-banner-sub">Haz el test vocacional y descúbrelo</span>
+						</div>
+						<div class="test-banner-arrow">
+							<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M7 17L17 7M7 7h10v10"/>
+							</svg>
+						</div>
+					</div>
 				</div>
 
 				<figure class="hero-visual reveal" style="--delay: 120ms">
@@ -148,13 +164,50 @@
 							<strong id="result-count">0 resultados</strong>
 							<span id="active-filter">Mostrando todo el catálogo</span>
 						</div>
-						<button class="secondary-button" id="refresh-button" type="button">
-							<svg aria-hidden="true" viewBox="0 0 24 24">
-								<path d="M20 7v5h-5" />
-								<path d="M18.1 16a8 8 0 1 1 .9-9l1 5" />
-							</svg>
-							Actualizar
-						</button>
+						<div class="toolbar-actions">
+							<button class="secondary-button" id="compare-btn" type="button" disabled>
+								<svg aria-hidden="true" viewBox="0 0 24 24" width="15" fill="none" stroke="currentColor" stroke-width="1.8">
+									<path d="M18 20V10M12 20V4M6 20v-6"/>
+								</svg>
+								Comparar
+							</button>
+							<button class="secondary-button" id="refresh-button" type="button">
+								<svg aria-hidden="true" viewBox="0 0 24 24">
+									<path d="M20 7v5h-5" />
+									<path d="M18.1 16a8 8 0 1 1 .9-9l1 5" />
+								</svg>
+								Actualizar
+							</button>
+						</div>
+					</div>
+
+					<div class="filter-bar" id="filter-bar">
+						<div class="filter-group">
+							<label class="filter-label">Modalidad</label>
+							<select id="filter-modality" class="filter-select">
+								<option value="">Todas</option>
+								<option value="Presencial">Presencial</option>
+								<option value="Virtual">Virtual</option>
+								<option value="Hibrida">Híbrida</option>
+							</select>
+						</div>
+						<div class="filter-group">
+							<label class="filter-label">Duración</label>
+							<select id="filter-duration" class="filter-select">
+								<option value="">Todas</option>
+								<option value="6">6 cuatrimestres</option>
+								<option value="12">12 cuatrimestres</option>
+							</select>
+						</div>
+						<div class="filter-group">
+							<label class="filter-label">Tipo de programa</label>
+							<select id="filter-category" class="filter-select">
+								<option value="">Todos</option>
+								<option value="licenciatura">Licenciatura</option>
+								<option value="ingenieria">Ingeniería</option>
+								<option value="tecnico_superior">Técnico Superior</option>
+							</select>
+						</div>
 					</div>
 
 					<div
@@ -249,38 +302,34 @@
 				Explorador académico desarrollado con información pública de UNAPEC.
 			</p>
 			<div>
-				<a href="/docs" data-api-link
-					>Documentación API</a
-				>
+				<a href="/docs" data-api-link>Documentación API</a>
 				<span>© 2026</span>
 			</div>
 		</footer>
 
-		<dialog
-			class="career-dialog"
-			id="career-dialog"
-			aria-labelledby="dialog-title"
-		>
+		<dialog class="career-dialog" id="career-dialog" aria-labelledby="dialog-title">
 			<div class="dialog-inner">
 				<div class="dialog-header">
 					<span class="dialog-code" id="dialog-code"></span>
-					<button
-						class="icon-button"
-						id="dialog-close"
-						type="button"
-						aria-label="Cerrar detalle"
-					>
-						<svg aria-hidden="true" viewBox="0 0 24 24">
-							<path d="M6 6l12 12M18 6 6 18" />
-						</svg>
-					</button>
+					<div class="dialog-header-actions">
+						<a class="dialog-pensum-link" id="dialog-pensum-link" href="#" target="_blank" rel="noopener">
+							<svg aria-hidden="true" viewBox="0 0 24 24" width="14" fill="none" stroke="currentColor" stroke-width="1.8">
+								<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+								<path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
+							</svg>
+							Pensum
+						</a>
+						<button class="icon-button" id="dialog-close" type="button" aria-label="Cerrar detalle">
+							<svg aria-hidden="true" viewBox="0 0 24 24">
+								<path d="M6 6l12 12M18 6 6 18" />
+							</svg>
+						</button>
+					</div>
 				</div>
 				<div class="dialog-content">
 					<p class="eyebrow" id="dialog-school"></p>
 					<h2 id="dialog-title"></h2>
-					<p class="dialog-lead">
-						Información principal del programa académico seleccionado.
-					</p>
+					<p class="dialog-lead">Información principal del programa académico seleccionado.</p>
 
 					<dl class="detail-grid">
 						<div>
@@ -300,6 +349,13 @@
 							<dd id="dialog-id"></dd>
 						</div>
 					</dl>
+
+					<div class="dialog-profile" id="dialog-profile-section" hidden>
+						<h3 class="dialog-section-title">Perfil ideal</h3>
+						<p id="dialog-profile"></p>
+						<h3 class="dialog-section-title">Áreas laborales</h3>
+						<p id="dialog-areas"></p>
+					</div>
 				</div>
 				<div class="dialog-image">
 					<img
@@ -310,6 +366,55 @@
 						loading="lazy"
 					/>
 				</div>
+				<div class="dialog-practical" id="dialog-info" hidden>
+					<div class="practical-grid">
+						<div class="practical-card">
+							<h4>Requisitos de admisión</h4>
+							<ul id="dialog-admission-list"></ul>
+						</div>
+						<div class="practical-card">
+							<h4>Costo aproximado</h4>
+							<p id="dialog-cost"></p>
+						</div>
+						<div class="practical-card">
+							<h4>Becas disponibles</h4>
+							<p id="dialog-scholarships"></p>
+						</div>
+						<div class="practical-card">
+							<h4>Fechas de inscripción</h4>
+							<p id="dialog-registration"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</dialog>
+
+		<dialog class="test-dialog" id="test-dialog" aria-labelledby="test-title">
+			<div class="test-particles" aria-hidden="true"></div>
+			<div class="test-inner">
+				<div class="dialog-header">
+					<h2 id="test-title">Test vocacional</h2>
+					<button class="icon-button" id="test-close-btn" type="button" aria-label="Cerrar test">
+						<svg aria-hidden="true" viewBox="0 0 24 24">
+							<path d="M6 6l12 12M18 6 6 18" />
+						</svg>
+					</button>
+				</div>
+				<div id="test-container" class="test-container"></div>
+			</div>
+		</dialog>
+
+		<dialog class="comparator-dialog" id="comparator-dialog" aria-labelledby="comparator-title">
+			<div class="comparator-inner">
+				<div class="dialog-header">
+					<h2 id="comparator-title">Comparador de carreras</h2>
+					<button class="icon-button" id="comparator-close-btn" type="button" aria-label="Cerrar comparador">
+						<svg aria-hidden="true" viewBox="0 0 24 24">
+							<path d="M6 6l12 12M18 6 6 18" />
+						</svg>
+					</button>
+				</div>
+				<div id="comparator-content" class="comparator-body"></div>
 			</div>
 		</dialog>
 
