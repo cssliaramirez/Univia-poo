@@ -1121,7 +1121,17 @@ tbody tr:last-child td {
     }
 
     .dialog-image {
-        display: none;
+        order: -1;
+        padding: 12px 12px 0 12px;
+    }
+
+    .dialog-image img {
+        aspect-ratio: 16 / 7;
+        border-radius: 16px 16px 0 0;
+    }
+
+    .dialog-content {
+        padding: 24px;
     }
 }
 
