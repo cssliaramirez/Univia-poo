@@ -1,4 +1,4 @@
-import { getCareer, getCareers, getHealth, getSchools } from "./api.js"
+import { getCareer, getCareers, getHealth, getPensum, getSchools } from "./api.js"
 import { API_DOCUMENTATION_URL } from "./config.js"
 import { getState, setState, subscribe } from "./state.js"
 import { initTheme } from "./theme.js"
@@ -9,6 +9,7 @@ import {
 	openCareerDialog,
 	renderHealth,
 	renderHealthError,
+	renderPensum,
 	renderSchools,
 	renderState,
 } from "./ui.js"
@@ -96,7 +97,16 @@ async function showDetail(id) {
 		const cached = getState().careers.find(
 			(career) => String(career.id) === String(id),
 		)
-		openCareerDialog(cached || (await getCareer(id)))
+		const career = cached || (await getCareer(id))
+		openCareerDialog(career, null)
+
+		try {
+			const pensum = await getPensum(id)
+			renderPensum(pensum, career.durationTerms)
+		} catch {
+			document.querySelector("#pensum-body").innerHTML =
+				"<p class='pensum-empty'>No se pudo cargar el pensum.</p>"
+		}
 	} catch (error) {
 		setState({ error: error.message })
 	}

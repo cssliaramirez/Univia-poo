@@ -12,6 +12,9 @@ const elements = {
 	heroProgramCount: document.querySelector("#hero-program-count"),
 	serviceStatus: document.querySelector("#service-status"),
 	dialog: document.querySelector("#career-dialog"),
+	pensumContainer: document.querySelector("#dialog-pensum"),
+	pensumBody: document.querySelector("#pensum-body"),
+	pensumToggle: document.querySelector("#pensum-toggle"),
 	apiLinks: document.querySelectorAll("[data-api-link]"),
 }
 
@@ -94,7 +97,7 @@ export function renderHealthError() {
 	elements.serviceStatus.lastElementChild.textContent = "Servicio no disponible"
 }
 
-export function openCareerDialog(career) {
+export function openCareerDialog(career, pensum = null) {
 	document.querySelector("#dialog-code").textContent = career.code
 	document.querySelector("#dialog-school").textContent = career.school.name
 	document.querySelector("#dialog-title").textContent = career.name
@@ -103,7 +106,60 @@ export function openCareerDialog(career) {
 	document.querySelector("#dialog-modality").textContent = career.modality
 	document.querySelector("#dialog-status").textContent = career.status
 	document.querySelector("#dialog-id").textContent = `#${career.id}`
+
+	const dialogImg = document.querySelector("#dialog-image")
+	const dialogImgContainer = dialogImg.parentElement
+	dialogImgContainer.hidden = false
+	if (career.imageUrl) {
+		dialogImg.removeAttribute("src")
+		dialogImg.src = career.imageUrl
+		dialogImg.alt = career.name
+	} else {
+		dialogImg.src = "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=600&q=80"
+		dialogImg.alt = "Campus universitario"
+	}
+
+	if (pensum && pensum.length > 0) {
+		renderPensum(pensum, career.durationTerms)
+		elements.pensumContainer.hidden = false
+	} else if (pensum !== null) {
+		elements.pensumBody.innerHTML = "<p class='pensum-empty'>Este programa no tiene pensum disponible.</p>"
+		elements.pensumContainer.hidden = false
+	} else {
+		elements.pensumBody.innerHTML = "<p class='pensum-loading'>Cargando pensum...</p>"
+		elements.pensumContainer.hidden = false
+	}
+
 	elements.dialog.showModal()
+}
+
+export function renderPensum(entries, totalTerms) {
+	const grouped = {}
+	entries.forEach((e) => {
+		if (!grouped[e.termNumber]) grouped[e.termNumber] = []
+		grouped[e.termNumber].push(e)
+	})
+
+	let html = "<div class='pensum-grid'>"
+	for (let t = 1; t <= totalTerms; t++) {
+		const subjects = grouped[t] || []
+		html += "<div class='pensum-term'><h4>Cuatrimestre " + t + "</h4><ul>"
+		if (subjects.length === 0) {
+			html += "<li class='pensum-empty-term'>Sin materias registradas</li>"
+		} else {
+			subjects.forEach((s) => {
+				html += "<li><span class='pensum-subject'>" + escapeHtml(s.subjectName) + "</span><span class='pensum-credits'>" + s.credits + " cr</span></li>"
+			})
+		}
+		html += "</ul></div>"
+	}
+	html += "</div>"
+
+	const totalCredits = entries.reduce((sum, e) => sum + e.credits, 0)
+	html += "<p class='pensum-total'><strong>Total: " + entries.length + " materias · " + totalCredits + " creditos</strong></p>"
+
+	elements.pensumBody.innerHTML = html
+	elements.pensumToggle.textContent = "Ocultar pensum"
 }
 
 export function closeCareerDialog() {

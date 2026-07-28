@@ -17,10 +17,14 @@ import univia.modules.careers.CareerService;
 import univia.modules.health.HealthController;
 import univia.modules.health.HealthModule;
 import univia.modules.health.HealthService;
+import univia.modules.pensum.PensumController;
+import univia.modules.pensum.PensumModule;
+import univia.modules.pensum.PensumService;
 import univia.modules.schools.SchoolController;
 import univia.modules.schools.SchoolModule;
 import univia.modules.schools.SchoolService;
 import univia.repositories.CareerRepository;
+import univia.repositories.PensumRepository;
 import univia.repositories.SchoolRepository;
 
 class AppIntegrationTest {
@@ -38,7 +42,9 @@ class AppIntegrationTest {
                     new SchoolController(new SchoolService(new SchoolRepository(database))));
             CareerModule careerModule = new CareerModule(
                     new CareerController(new CareerService(new CareerRepository(database))));
-            Javalin app = AppFactory.create(config, module, schoolModule, careerModule);
+            PensumModule pensumModule = new PensumModule(
+                    new PensumController(new PensumService(new PensumRepository(database))));
+            Javalin app = AppFactory.create(config, module, schoolModule, careerModule, pensumModule);
 
             JavalinTest.test(app, (server, client) -> {
                 var health = client.get("/api/health");
@@ -55,6 +61,7 @@ class AppIntegrationTest {
                 assertTrue(openApiBody.contains("/api/schools"));
                 assertTrue(openApiBody.contains("/api/careers"));
                 assertTrue(openApiBody.contains("/api/careers/{id}"));
+                assertTrue(openApiBody.contains("/api/careers/{id}/pensum"));
 
                 assertEquals(200, client.get("/docs").code());
                 assertEquals(400, client.get("/api/careers?schoolId=invalid").code());

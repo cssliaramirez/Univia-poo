@@ -23,6 +23,7 @@ public final class CareerRepository {
                 c.duration_terms,
                 c.modality,
                 c.status,
+                c.image_url,
                 s.id AS school_id,
                 s.name AS school_name
             FROM careers c
@@ -115,6 +116,7 @@ public final class CareerRepository {
                 school,
                 resultSet.getInt("duration_terms"),
                 Modality.valueOf(resultSet.getString("modality")),
-                CareerStatus.valueOf(resultSet.getString("status")));
+                CareerStatus.valueOf(resultSet.getString("status")),
+                resultSet.getString("image_url"));
     }
 }

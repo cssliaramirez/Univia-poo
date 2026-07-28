@@ -67,3 +67,7 @@ export function getCareers({ schoolId = "", name = "" } = {}) {
 export function getCareer(id) {
 	return requestWithRetry(`${ENDPOINTS.careers}/${id}`)
 }
+
+export function getPensum(id) {
+	return requestWithRetry(`${ENDPOINTS.careers}/${id}/pensum`)
+}

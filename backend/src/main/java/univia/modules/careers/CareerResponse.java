@@ -13,7 +13,8 @@ public record CareerResponse(
         int durationTerms,
         String durationUnit,
         String modality,
-        String status) {
+        String status,
+        String imageUrl) {
 
     public static CareerResponse from(Career career) {
         return new CareerResponse(
@@ -24,7 +25,8 @@ public record CareerResponse(
                 career.getDurationTerms(),
                 "Cuatrimestres",
                 translateModality(career.getModality()),
-                translateStatus(career.getStatus()));
+                translateStatus(career.getStatus()),
+                career.getImageUrl());
     }
 
     private static String translateModality(Modality modality) {
