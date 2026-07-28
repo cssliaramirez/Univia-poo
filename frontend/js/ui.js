@@ -159,6 +159,7 @@ export function renderPensum(entries, totalTerms) {
 	html += "<p class='pensum-total'><strong>Total: " + entries.length + " materias · " + totalCredits + " creditos</strong></p>"
 
 	elements.pensumBody.innerHTML = html
+	elements.pensumBody.hidden = false
 	elements.pensumToggle.textContent = "Ocultar pensum"
 }
 

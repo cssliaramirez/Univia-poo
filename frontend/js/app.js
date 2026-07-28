@@ -123,4 +123,16 @@ document.querySelector("#exit-button").addEventListener("click", () => {
 	window.location.replace("https://unapec.edu.do")
 })
 
+document.querySelector("#pensum-toggle").addEventListener("click", () => {
+	const body = document.querySelector("#pensum-body")
+	const btn = document.querySelector("#pensum-toggle")
+	if (body.hidden) {
+		body.hidden = false
+		btn.textContent = "Ocultar pensum"
+	} else {
+		body.hidden = true
+		btn.textContent = "Mostrar pensum"
+	}
+})
+
 loadInitialData()
