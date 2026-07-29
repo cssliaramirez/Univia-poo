@@ -308,91 +308,46 @@
 		</footer>
 
 		<dialog class="career-dialog" id="career-dialog" aria-labelledby="dialog-title">
-			<div class="dialog-inner">
-				<div class="dialog-header">
-					<span class="dialog-code" id="dialog-code"></span>
-					<div class="dialog-header-actions">
-						<a class="dialog-pensum-link" id="dialog-pensum-link" href="#" target="_blank" rel="noopener">
-							<svg aria-hidden="true" viewBox="0 0 24 24" width="14" fill="none" stroke="currentColor" stroke-width="1.8">
-								<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
-								<path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
-							</svg>
-							Pensum
-						</a>
-						<button class="icon-button" id="dialog-close" type="button" aria-label="Cerrar detalle">
-							<svg aria-hidden="true" viewBox="0 0 24 24">
-								<path d="M6 6l12 12M18 6 6 18" />
-							</svg>
+			<button class="dialog-close-btn" id="dialog-close" type="button" aria-label="Cerrar detalle">
+				<svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+			</button>
+			<div class="dialog-banner">
+				<img id="dialog-image" src="" alt="" width="800" height="400" loading="lazy" />
+			</div>
+			<div class="dialog-body">
+				<span class="dialog-badge" id="dialog-code"></span>
+				<h2 id="dialog-title"></h2>
+				<p class="dialog-school" id="dialog-school"></p>
+				<div class="dialog-tags" id="dialog-tags">
+					<span id="dialog-duration"></span>
+					<span id="dialog-modality"></span>
+					<span id="dialog-status"></span>
+				</div>
+
+				<div class="pensum-section" id="dialog-pensum" hidden>
+					<div class="pensum-toggle-row">
+						<h3>Plan de estudios</h3>
+						<button class="pensum-toggle-btn" id="pensum-toggle" type="button">
+							<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg>
+							Ocultar
 						</button>
 					</div>
+					<div id="pensum-body"></div>
 				</div>
-				<div class="dialog-content">
-					<p class="eyebrow" id="dialog-school"></p>
-					<h2 id="dialog-title"></h2>
-					<p class="dialog-lead">Información principal del programa académico seleccionado.</p>
-
-					<dl class="detail-grid">
-						<div>
-							<dt>Duración</dt>
-							<dd id="dialog-duration"></dd>
-						</div>
-						<div>
-							<dt>Modalidad</dt>
-							<dd id="dialog-modality"></dd>
-						</div>
-						<div>
-							<dt>Estado</dt>
-							<dd id="dialog-status"></dd>
-						</div>
-						<div>
-							<dt>Identificador</dt>
-							<dd id="dialog-id"></dd>
-						</div>
-					</dl>
-
-					<div class="pensum-section" id="dialog-pensum" hidden>
-						<h3 class="dialog-section-title">
-							Pensum
-							<button class="text-button pensum-toggle-btn" id="pensum-toggle" type="button">Ocultar pensum</button>
-						</h3>
-						<div id="pensum-body"></div>
-					</div>
 
 				<div class="dialog-profile" id="dialog-profile-section" hidden>
-						<h3 class="dialog-section-title">Perfil ideal</h3>
-						<p id="dialog-profile"></p>
-						<h3 class="dialog-section-title">Áreas laborales</h3>
-						<p id="dialog-areas"></p>
-					</div>
+					<h3>Perfil ideal</h3>
+					<p id="dialog-profile"></p>
+					<h3>Áreas laborales</h3>
+					<p id="dialog-areas"></p>
 				</div>
-				<div class="dialog-image">
-					<img
-						id="dialog-image"
-						src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=600&q=80"
-						alt="Campus universitario"
-						width="600"
-						height="400"
-						loading="lazy"
-					/>
-				</div>
+
 				<div class="dialog-practical" id="dialog-info" hidden>
 					<div class="practical-grid">
-						<div class="practical-card">
-							<h4>Requisitos de admisión</h4>
-							<ul id="dialog-admission-list"></ul>
-						</div>
-						<div class="practical-card">
-							<h4>Costo aproximado</h4>
-							<p id="dialog-cost"></p>
-						</div>
-						<div class="practical-card">
-							<h4>Becas disponibles</h4>
-							<p id="dialog-scholarships"></p>
-						</div>
-						<div class="practical-card">
-							<h4>Fechas de inscripción</h4>
-							<p id="dialog-registration"></p>
-						</div>
+						<div class="practical-card"><h4>Requisitos de admisión</h4><ul id="dialog-admission-list"></ul></div>
+						<div class="practical-card"><h4>Costo aproximado</h4><p id="dialog-cost"></p></div>
+						<div class="practical-card"><h4>Becas disponibles</h4><p id="dialog-scholarships"></p></div>
+						<div class="practical-card"><h4>Fechas de inscripción</h4><p id="dialog-registration"></p></div>
 					</div>
 				</div>
 			</div>
@@ -427,6 +382,6 @@
 			</div>
 		</dialog>
 
-		<script type="module" src="js/app.js?v=20260728c"></script>
+		<script type="module" src="js/app.js?v=20260728g"></script>
 	</body>
 </html>

@@ -224,17 +224,12 @@ export function openCareerDialog(career) {
 		`${career.durationTerms} ${career.durationUnit}`
 	document.querySelector("#dialog-modality").textContent = career.modality
 	document.querySelector("#dialog-status").textContent = career.status
-	document.querySelector("#dialog-id").textContent = `#${career.id}`
 
 	const info = getCareerInfo(career.code)
-	const pensumLink = document.querySelector("#dialog-pensum-link")
 	const infoSection = document.querySelector("#dialog-info")
 	const profileSection = document.querySelector("#dialog-profile-section")
 
 	if (info) {
-		pensumLink.href = info.pensumLink
-		pensumLink.classList.remove("hidden")
-
 		document.querySelector("#dialog-profile").textContent = info.idealProfile
 		document.querySelector("#dialog-areas").textContent = info.workAreas
 		profileSection.hidden = false
@@ -246,23 +241,23 @@ export function openCareerDialog(career) {
 		document.querySelector("#dialog-registration").textContent = info.registrationDates
 		infoSection.hidden = false
 	} else {
-		pensumLink.classList.add("hidden")
 		profileSection.hidden = true
 		infoSection.hidden = true
 	}
 
 	const dialogImg = document.querySelector("#dialog-image")
 	if (dialogImg) {
-		const dialogImgContainer = dialogImg.parentElement
-		dialogImgContainer.hidden = false
 		if (career.imageUrl) {
 			dialogImg.src = career.imageUrl
 			dialogImg.alt = career.name
 		} else {
-			dialogImg.src = "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=600&q=80"
+			dialogImg.src = "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=800&q=80"
 			dialogImg.alt = "Campus universitario"
 		}
 	}
+
+	const pensumSection = document.querySelector("#dialog-pensum")
+	if (pensumSection) pensumSection.hidden = true
 
 	elements.dialog.showModal()
 }
@@ -278,30 +273,44 @@ export function renderPensum(entries, totalTerms) {
 		grouped[e.termNumber].push(e)
 	})
 
-	let html = "<div class='pensum-grid'>"
+	let html = ""
 	for (let t = 1; t <= totalTerms; t++) {
 		const subjects = grouped[t] || []
-		html += "<div class='pensum-term'><h4>Cuatrimestre " + t + "</h4><ul>"
+		const termCredits = subjects.reduce((s, e) => s + e.credits, 0)
+		html += "<details class='pensum-term' " + (t <= 2 ? "open" : "") + ">"
+		html += "<summary class='pensum-term-header'>"
+		html += "<span class='pensum-term-title'>" + t + "º Cuatrimestre</span>"
+		html += "<span class='pensum-term-meta'>" + subjects.length + " materias · " + termCredits + " cr</span>"
+		html += "</summary>"
+		html += "<div class='pensum-term-body'><table class='pensum-table'>"
 		if (subjects.length === 0) {
-			html += "<li class='pensum-empty-term'>Sin materias registradas</li>"
+			html += "<tr><td class='pensum-empty-term' colspan='2'>Sin materias registradas</td></tr>"
 		} else {
 			subjects.forEach((s) => {
-				html += "<li><span class='pensum-subject'>" + escapeHtml(s.subjectName) + "</span><span class='pensum-credits'>" + s.credits + " cr</span></li>"
+				const nameParts = s.subjectName.split(" - ")
+				const code = nameParts.length > 1 ? nameParts[0] : ""
+				const name = nameParts.length > 1 ? nameParts.slice(1).join(" - ") : s.subjectName
+				html += "<tr>"
+				html += "<td class='pensum-name'>"
+				if (code) html += "<span class='pensum-code'>" + escapeHtml(code) + "</span> "
+				html += escapeHtml(name) + "</td>"
+				html += "<td class='pensum-credits'>" + s.credits + " cr</td>"
+				html += "</tr>"
 			})
 		}
-		html += "</ul></div>"
+		html += "</table></div></details>"
 	}
-	html += "</div>"
 
 	const totalCredits = entries.reduce((sum, e) => sum + e.credits, 0)
-	html += "<p class='pensum-total'><strong>Total: " + entries.length + " materias · " + totalCredits + " creditos</strong></p>"
+	html += "<p class='pensum-total'>" + entries.length + " materias · " + totalCredits + " creditos</p>"
 
 	if (elements.pensumBody) {
 		elements.pensumBody.innerHTML = html
 		elements.pensumBody.hidden = false
 	}
 	if (elements.pensumContainer) elements.pensumContainer.hidden = false
-	if (elements.pensumToggle) elements.pensumToggle.textContent = "Ocultar pensum"
+	if (elements.pensumToggle) elements.pensumToggle.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg> Ocultar'
+	if (elements.pensumToggle) elements.pensumToggle.classList.remove("collapsed")
 }
 
 export function initializeReveals() {

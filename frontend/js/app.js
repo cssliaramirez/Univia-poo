@@ -183,10 +183,12 @@ document.querySelector("#pensum-toggle")?.addEventListener("click", () => {
 	if (!body || !btn) return
 	if (body.hidden) {
 		body.hidden = false
-		btn.textContent = "Ocultar pensum"
+		btn.classList.remove("collapsed")
+		btn.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 15-6-6-6 6"/></svg> Ocultar'
 	} else {
 		body.hidden = true
-		btn.textContent = "Mostrar pensum"
+		btn.classList.add("collapsed")
+		btn.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg> Mostrar'
 	}
 })
 
