@@ -248,6 +248,19 @@ export function openCareerDialog(career) {
 		infoSection.hidden = true
 	}
 
+	const dialogImg = document.querySelector("#dialog-image")
+	if (dialogImg) {
+		const dialogImgContainer = dialogImg.parentElement
+		dialogImgContainer.hidden = false
+		if (career.imageUrl) {
+			dialogImg.src = career.imageUrl
+			dialogImg.alt = career.name
+		} else {
+			dialogImg.src = "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=600&q=80"
+			dialogImg.alt = "Campus universitario"
+		}
+	}
+
 	elements.dialog.showModal()
 }
 

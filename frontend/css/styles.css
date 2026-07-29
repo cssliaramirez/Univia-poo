@@ -997,12 +997,14 @@ tbody tr:last-child td {
 
 .dialog-image {
     padding: 12px 12px 12px 0;
+    display: flex;
+    align-items: flex-start;
 }
 
 .dialog-image img {
     width: 100%;
-    height: 100%;
-    min-height: 540px;
+    max-height: 100%;
+    aspect-ratio: 3 / 4;
     object-fit: cover;
     border-radius: 16px;
     filter: var(--dialog-img-filter);
@@ -1119,7 +1121,17 @@ tbody tr:last-child td {
     }
 
     .dialog-image {
-        display: none;
+        order: -1;
+        padding: 12px 12px 0 12px;
+    }
+
+    .dialog-image img {
+        aspect-ratio: 16 / 7;
+        border-radius: 16px 16px 0 0;
+    }
+
+    .dialog-content {
+        padding: 24px;
     }
 }
 
@@ -2319,4 +2331,101 @@ tbody tr:last-child td {
     .test-banner-copy strong {
         font-size: 14px;
     }
+/* Pensum */
+.pensum-section {
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+    margin-top: 1rem;
+}
+
+.pensum-section h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.pensum-toggle-btn {
+    font-size: 0.8rem;
+    font-weight: 400;
+}
+
+.pensum-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.pensum-term {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0.8rem;
+}
+
+.pensum-term h4 {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.pensum-term ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.pensum-term li {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.3rem 0;
+    font-size: 0.78rem;
+    line-height: 1.4;
+}
+
+.pensum-term li + li {
+    border-top: 1px solid var(--border-color);
+}
+
+.pensum-subject {
+    flex: 1;
+}
+
+.pensum-credits {
+    font-weight: 600;
+    color: var(--accent);
+    font-size: 0.72rem;
+    white-space: nowrap;
+    background: var(--accent-bg);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+}
+
+.pensum-total {
+    margin-top: 1.2rem;
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.pensum-loading,
+.pensum-empty {
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.pensum-empty-term {
+    text-align: center;
+    color: var(--text-secondary);
+    font-style: italic;
+    padding: 0.5rem 0 !important;
 }

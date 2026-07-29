@@ -10,9 +10,10 @@ public final class Career {
     private int durationTerms;
     private Modality modality;
     private CareerStatus status;
+    private String imageUrl;
 
     public Career(Long id, String code, String name, School school, int durationTerms,
-                  Modality modality, CareerStatus status) {
+                  Modality modality, CareerStatus status, String imageUrl) {
         this.id = id;
         this.code = Objects.requireNonNull(code);
         this.name = Objects.requireNonNull(name);
@@ -20,6 +21,7 @@ public final class Career {
         this.durationTerms = durationTerms;
         this.modality = Objects.requireNonNull(modality);
         this.status = Objects.requireNonNull(status);
+        this.imageUrl = imageUrl;
     }
 
     public Long getId() { return id; }
@@ -35,5 +37,7 @@ public final class Career {
     public void setModality(Modality modality) { this.modality = Objects.requireNonNull(modality); }
     public CareerStatus getStatus() { return status; }
     public void setStatus(CareerStatus status) { this.status = Objects.requireNonNull(status); }
+    public String getImageUrl() { return imageUrl; }
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
 }
 

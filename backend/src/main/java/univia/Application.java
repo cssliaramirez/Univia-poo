@@ -9,10 +9,14 @@ import univia.modules.careers.CareerService;
 import univia.modules.health.HealthController;
 import univia.modules.health.HealthModule;
 import univia.modules.health.HealthService;
+import univia.modules.pensum.PensumController;
+import univia.modules.pensum.PensumModule;
+import univia.modules.pensum.PensumService;
 import univia.modules.schools.SchoolController;
 import univia.modules.schools.SchoolModule;
 import univia.modules.schools.SchoolService;
 import univia.repositories.CareerRepository;
+import univia.repositories.PensumRepository;
 import univia.repositories.SchoolRepository;
 
 public final class Application {
@@ -24,10 +28,12 @@ public final class Application {
         HealthModule healthModule = new HealthModule(new HealthController(new HealthService(database, config.appVersion())));
         SchoolRepository schoolRepository = new SchoolRepository(database);
         CareerRepository careerRepository = new CareerRepository(database);
+        PensumRepository pensumRepository = new PensumRepository(database);
         SchoolModule schoolModule = new SchoolModule(new SchoolController(new SchoolService(schoolRepository)));
         CareerModule careerModule = new CareerModule(new CareerController(new CareerService(careerRepository)));
+        PensumModule pensumModule = new PensumModule(new PensumController(new PensumService(pensumRepository)));
 
-        Javalin app = AppFactory.create(config, healthModule, schoolModule, careerModule);
+        Javalin app = AppFactory.create(config, healthModule, schoolModule, careerModule, pensumModule);
         Runtime.getRuntime().addShutdownHook(new Thread(database::close));
         app.start(config.port());
     }

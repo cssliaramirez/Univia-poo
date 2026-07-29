@@ -7,6 +7,7 @@ import univia.config.AppConfig;
 import univia.errors.ErrorHandler;
 import univia.modules.careers.CareerModule;
 import univia.modules.health.HealthModule;
+import univia.modules.pensum.PensumModule;
 import univia.modules.schools.SchoolModule;
 
 public final class AppFactory {
@@ -16,7 +17,8 @@ public final class AppFactory {
             AppConfig appConfig,
             HealthModule healthModule,
             SchoolModule schoolModule,
-            CareerModule careerModule) {
+            CareerModule careerModule,
+            PensumModule pensumModule) {
         return Javalin.create(config -> {
             config.bundledPlugins.enableCors(cors ->
                     cors.addRule(rule -> rule.anyHost()));
@@ -34,6 +36,7 @@ public final class AppFactory {
             healthModule.register(config);
             schoolModule.register(config);
             careerModule.register(config);
+            pensumModule.register(config);
             ErrorHandler.register(config);
         });
     }
