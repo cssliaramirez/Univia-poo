@@ -14,6 +14,9 @@ const elements = {
 	heroProgramCount: document.querySelector("#hero-program-count"),
 	serviceStatus: document.querySelector("#service-status"),
 	dialog: document.querySelector("#career-dialog"),
+	pensumContainer: document.querySelector("#dialog-pensum"),
+	pensumBody: document.querySelector("#pensum-body"),
+	pensumToggle: document.querySelector("#pensum-toggle"),
 	apiLinks: document.querySelectorAll("[data-api-link]"),
 }
 
@@ -266,6 +269,39 @@ export function openCareerDialog(career) {
 
 export function closeCareerDialog() {
 	elements.dialog.close()
+}
+
+export function renderPensum(entries, totalTerms) {
+	const grouped = {}
+	entries.forEach((e) => {
+		if (!grouped[e.termNumber]) grouped[e.termNumber] = []
+		grouped[e.termNumber].push(e)
+	})
+
+	let html = "<div class='pensum-grid'>"
+	for (let t = 1; t <= totalTerms; t++) {
+		const subjects = grouped[t] || []
+		html += "<div class='pensum-term'><h4>Cuatrimestre " + t + "</h4><ul>"
+		if (subjects.length === 0) {
+			html += "<li class='pensum-empty-term'>Sin materias registradas</li>"
+		} else {
+			subjects.forEach((s) => {
+				html += "<li><span class='pensum-subject'>" + escapeHtml(s.subjectName) + "</span><span class='pensum-credits'>" + s.credits + " cr</span></li>"
+			})
+		}
+		html += "</ul></div>"
+	}
+	html += "</div>"
+
+	const totalCredits = entries.reduce((sum, e) => sum + e.credits, 0)
+	html += "<p class='pensum-total'><strong>Total: " + entries.length + " materias · " + totalCredits + " creditos</strong></p>"
+
+	if (elements.pensumBody) {
+		elements.pensumBody.innerHTML = html
+		elements.pensumBody.hidden = false
+	}
+	if (elements.pensumContainer) elements.pensumContainer.hidden = false
+	if (elements.pensumToggle) elements.pensumToggle.textContent = "Ocultar pensum"
 }
 
 export function initializeReveals() {
